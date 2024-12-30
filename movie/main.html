@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./main.css">
+    <title>간편 영화 후기</title>
+</head>
+
+<body>
+    <div class="modal-bg" onclick="modalOut()"></div>
+    <div class="modal">
+        <dib class="modal-body">
+            <button onclick="modalOut()">닫기</button>
+            <h2>모달창 제목</h2>
+            <P>모달창 내용 </P>
+        </dib>
+    </div>
+
+    <div class="header">
+        <div class="left">
+            <a href="./main.html" class="logo">
+                <img src="../img/logo.avif" alt="">
+            </a>
+            <span class="title">
+                간편 영화 후기
+            </span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="notice-box">
+            <h2>
+                인기/최신 영화에 한마디씩!
+            </h2>
+            <h3>
+                themoviedb라는 아주 훌륭한 무료 영화 데이터베이스 플랫폼 API를 사용하여 영화정보를 가져왔습니다.
+            </h3>
+            <p>
+                키 값은 임의로 사관학교에서 생성했지만 언제 막힐지 몰라요! 사용량이 정해져있거든요!
+                <br>따라서 여러분 프로젝트땐, 키를 직접 발급 받아보세요
+            </p>
+            <a href="#d">
+                themoviedb로 키발급 받으러가기
+            </a>
+        </div>
+
+        <div class="list-box">
+            <ul>
+                <li>
+                    <p class="title">
+                        title
+                    </p>
+                    <p class="content">
+                        content content content content content content content content content content content content content content content content content content content content content content
+                    </p>
+                    <button onclick="modalOn()">리뷰 보기</button>
+                </li>
+                <li>
+                    <p class="title">
+                        title
+                    </p>
+                    <p class="content">
+                        content content content content content content content content content content content content content content content content content content content content content content
+                    </p>
+                    <button>리뷰 보기</button>
+                </li>
+                <li>
+                    <p class="title">
+                        title
+                    </p>
+                    <p class="content">
+                        content content content content content content content content content content content content content content content content content content content content content content
+                    </p>
+                    <button>리뷰 보기</button>
+                </li>
+                <li>
+                    <p class="title">
+                        title
+                    </p>
+                    <p class="content">
+                        content content content content content content content content content content content content content content content content content content content content content content
+                    </p>
+                    <button>리뷰 보기</button>
+                </li>
+                <li>
+                    <p class="title">
+                        title
+                    </p>
+                    <p class="content">
+                        content content content content content content content content content content content content content content content content content content content content content content
+                    </p>
+                    <button>리뷰 보기</button>
+                </li>
+                <li>
+                    <p class="title">
+                        title
+                    </p>
+                    <p class="content">
+                        content content content content content content content content content content content content content content content content content content content content content content
+                    </p>
+                    <button>리뷰 보기</button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+        function modalOn() {
+            $('.modal-bg').fadeIn(1000);
+            $('.modal').fadeIn(1000);
+        }
+
+        function modalOut() {
+            $('.modal-bg').fadeOut(1000);
+            $('.modal').fadeOut(1000);
+        }
+    </script>
+    <!-- 빠르게 프론트에 알려주고 빠른 실행 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</body>
+
+</html>
