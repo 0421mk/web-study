@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./main.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -14,22 +16,65 @@
         <div class="title">
             정말 간단한 TODO 리스트
         </div>
-        <ul>
+        <ul id="list-group">
             <li>
                 <div class="left">
-                    오늘의 할 일 목록 하나!
+                    오늘의 할 일 목록 하나!오늘의 할 일 목록 하나!오늘의 할 일 목록 하나!오늘의 할 일 목록 하나!
                 </div>
-                <button>
+                <button onclick="deleteTodo()">
                     삭제
                 </button>
             </li>
         </ul>
         <div class="bottom">
-            <input type="text">
-            <button>Button</button>
+            <input type="text" id="input-area">
+            <button onclick="addTodo()">추가</button>
         </div>
     </div>
+    <script>
+        //ready. 웹사이트 실행 후 준비된 함수
+        $(document).ready(function () {
+            console.log("시작");
 
+            $.ajax({
+                // 외부 서버 개발자가 API를 도메인 형태 주소로 만든다고 함
+                url:"https://api.themoviedb.org/3/movie/popular?api_key=10923b261ba94d897ac6b81148314a3f&page=1",
+                data:{"key":"value"},
+                type:"GET",
+                success:function(json) {
+                    console.log(json);
+                    
+                },
+                error:function(err) {
+
+                }
+            });
+        });
+
+
+        function addTodo() {
+            let todo = $("#input-area").val();
+            console.log(todo);
+
+            let id = Math.floor(Math.random() * 100000);
+            let list_item = `<li class="list-${id}">
+                <div class="left">
+                ${todo}
+                </div>
+                <button onclick="deleteTodo(${id})">
+                    삭제
+                </button>
+            </li>`;
+
+            $("#list-group").append(list_item);
+            $("#input-area").val('');
+        }
+
+        function deleteTodo(id) {
+            $(".list-" + id).remove();
+        }
+
+    </script>
 </body>
 
 </html>
