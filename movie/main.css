@@ -32,6 +32,9 @@ body {
     height: 100%;
     background: #eee;
     position: relative;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
 }
 ol, ul {
 	list-style: none;
@@ -50,7 +53,7 @@ table {
 }
 
 .modal-bg {
-    position: absolute;
+    position: fixed;
     background: black;
     width: 100%;
     height: 100%;
@@ -62,19 +65,26 @@ table {
 
 .modal {
     display: none;
-    position: absolute;
+    position: fixed;
     border-radius: 10px;
     top:20%;
     left: 50%;
     transform: translateX(-50%);
-    width: 400px;
+    width: 60%;            /* 화면 너비의 60% */
+    max-width: 600px;      /* 최대 600px까지만 확장 */
+    min-width: 200px;      /* 최소 너비 (선택사항) */
+    margin: 0 auto;   
     height: 400px;
     padding:40px;
     text-align: center;
     background-color: #fff;
 }
 
-.modal .modal-body button {
+.modal .modal-body {
+    overflow: scroll;
+}
+
+.modal .modal-body > button {
     position: absolute;
     top:20px;
     right: 20px;
@@ -87,6 +97,30 @@ table {
 .modal .modal-body p {
     font-size: 15px;
     overflow: hidden;
+}
+.modal .modal-body .modal-box {
+    overflow: scroll;
+    height: 300px;
+}
+.modal .modal-body .modal-box .review-card {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;;
+}
+.modal .modal-body .modal-box .review-card > div {
+    text-align: left;
+}
+.modal .modal-body .modal-box .review-card .review-user {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.modal .modal-body .modal-footer input:nth-child(1) {
+    width: 20%;
+}
+.modal .modal-body .modal-footer input:nth-child(2) {
+    width: 50%;
 }
 
 .header {
@@ -118,7 +152,8 @@ table {
 }
 
 .container {
-    width: 1280px;
+    max-width: 1280px;
+    width: 100%;
     margin:0 auto;
 }
 .container .notice-box {
@@ -168,16 +203,42 @@ table {
     clear: both;
 }
 
+.container .list-box ul .img-box {
+    margin-bottom: 20px;
+}
+.container .list-box ul .img-box img {
+    width:100%;
+    height:500px;
+    background-color: white;
+    object-fit: contain;
+}
+
+.container .list-box ul:after {
+    content: "";
+    display: block;
+    clear: both;
+}
 .container .list-box ul > li {
     float: left;
     background: #fff;
     display: inline-block;
-    width: 400px;
+    max-width: 400px;
+    width: 100%;
     margin-bottom: 30px;
     padding: 20px;
     box-sizing: border-box;
 }
 
+.container .list-box ul > li {
+    float: left;
+    background: #fff;
+    display: inline-block;
+    height:800px;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px;
+    box-sizing: border-box;
+}
 .container .list-box ul > li p {
     text-align: center;
 }
@@ -185,6 +246,11 @@ table {
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 15px;
+    height:40px;
+}
+.container .list-box ul > li .content {
+    font-size: 14px;
+    height: 130px;
 }
 .container .list-box ul > li > button {
     width: 100%;
@@ -200,3 +266,50 @@ table {
     margin-left: 40px;
     margin-right: 40px;
 }
+
+/* 큰 화면 (1200px 이상) */
+@media (min-width: 1280px) {
+    .container .list-box ul > li:nth-child(3n-1) {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+    .container .list-box ul > li {
+        width: 400px;
+    }
+  }
+
+  /* 중간 화면 (768px ~ 1199px) */
+  @media (max-width: 1279px) and (min-width: 768px) {
+    .container .list-box ul > li:nth-child(3n-1) {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container .list-box ul > li:nth-child(2n-1) {
+        margin-left: 0;
+        margin-right: 20px;
+    }
+
+    .container .list-box ul > li {
+        max-width: calc(50% - 10px);
+        width: auto;
+    }
+  }
+
+  /* 작은 화면 (768px 이하) */
+  @media (max-width: 767px) {
+    /* 모든 경우의 수 다 먹여야 함 */
+    .container .list-box ul > li:nth-child(3n-1) {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .container .list-box ul > li:nth-child(2n-1) {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    .container .list-box ul > li {
+        max-width: 100%;
+    }
+  }

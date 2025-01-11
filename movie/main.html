@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./main.css">
     <title>간편 영화 후기</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -13,8 +15,15 @@
     <div class="modal">
         <dib class="modal-body">
             <button onclick="modalOut()">닫기</button>
-            <h2>모달창 제목</h2>
-            <P>모달창 내용 </P>
+            <h2 class="modal-title">리뷰</h2>
+            <P class="modal-box">
+
+            </P>
+            <div class="modal-footer">
+                이름: <input type="text" class="fonm-control" id="review-user">
+                내용: <input type="text" class="form-control" id="review-content">
+                <button type="button" onclick="addReview()">리뷰 쓰기</button>
+            </div>
         </dib>
     </div>
 
@@ -48,78 +57,131 @@
         </div>
 
         <div class="list-box">
-            <ul>
-                <li>
-                    <p class="title">
-                        title
-                    </p>
-                    <p class="content">
-                        content content content content content content content content content content content content content content content content content content content content content content
-                    </p>
-                    <button onclick="modalOn()">리뷰 보기</button>
-                </li>
-                <li>
-                    <p class="title">
-                        title
-                    </p>
-                    <p class="content">
-                        content content content content content content content content content content content content content content content content content content content content content content
-                    </p>
-                    <button>리뷰 보기</button>
-                </li>
-                <li>
-                    <p class="title">
-                        title
-                    </p>
-                    <p class="content">
-                        content content content content content content content content content content content content content content content content content content content content content content
-                    </p>
-                    <button>리뷰 보기</button>
-                </li>
-                <li>
-                    <p class="title">
-                        title
-                    </p>
-                    <p class="content">
-                        content content content content content content content content content content content content content content content content content content content content content content
-                    </p>
-                    <button>리뷰 보기</button>
-                </li>
-                <li>
-                    <p class="title">
-                        title
-                    </p>
-                    <p class="content">
-                        content content content content content content content content content content content content content content content content content content content content content content
-                    </p>
-                    <button>리뷰 보기</button>
-                </li>
-                <li>
-                    <p class="title">
-                        title
-                    </p>
-                    <p class="content">
-                        content content content content content content content content content content content content content content content content content content content content content content
-                    </p>
-                    <button>리뷰 보기</button>
-                </li>
+            <ul id="movie_list">
+
             </ul>
         </div>
 
     </div>
 
     <script>
-        function modalOn() {
+        $(document).ready(function () {
+            console.log("시작");
+
+            $.ajax({
+                // 외부 서버 개발자가 API를 도메인 형태 주소로 만든다고 함
+                url: "https://api.themoviedb.org/3/movie/popular?api_key=10923b261ba94d897ac6b81148314a3f&page=1",
+                data: { "key": "value" },
+                type: "GET",
+                success: function (json) {
+                    let movie_list = json.results;
+
+                    $("#movie_list").html();
+
+                    for (let i = 0; i < movie_list.length; i++) {
+                        let card = `
+                        <li>
+                            <div class="img-box">
+                                <img src="${'https://image.tmdb.org/t/p/w500/' + movie_list[i].poster_path}" alt="">
+                            </div>     
+                            <p class="title">
+                                ${movie_list[i].original_title}
+                            </p>
+                            <p class="content">
+                                ${movie_list[i].overview}
+                            </p>
+                            <button onclick="modalOn(${movie_list[i].id})">리뷰 보기</button>
+                        </li>
+                        `;
+
+                        $("#movie_list").append(card);
+                    }
+                },
+                error: function (err) {
+
+                }
+            });
+        });
+
+        function modalOn(id) {
+            console.log(id);
+
+            $.ajax({
+                // 외부 서버 개발자가 API를 도메인 형태 주소로 만든다고 함
+                url: `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=e9dbec2e343f4b96592855955332a05c`,
+                data: {},
+                type: "GET",
+                success: function (json) {
+                    $(".modal-box").html('');
+
+                    let = reviews = json.results;
+
+                    for (let i = 0; i < reviews.length; i++) {
+                        let card = `
+                        <div class="review-card">
+                            <div class="review-user" id="${reviews[i].id}">
+                                ${reviews[i].author}
+                            </div>
+                            <div class="review-content">
+                                ${reviews[i].content}
+                            </div>
+                        </div>
+                        `;
+                        $(".modal-box").append(card);
+                    }
+                },
+                error: function (err) {
+
+                }
+            });
+
             $('.modal-bg').fadeIn(1000);
             $('.modal').fadeIn(1000);
+            $('body').css("overflow", "hidden");
         }
 
         function modalOut() {
             $('.modal-bg').fadeOut(1000);
             $('.modal').fadeOut(1000);
+            $('body').css("overflow", "auto");
+        }
+
+        function addReview() {
+            let user = $("#review-user").val();
+            let content = $("#review-content").val();
+
+            // $.ajax({
+            //     // Ajax Post를 이용해서 데이터베이스에 데이터 저장을 한다.
+            //     // 동시에 javascript를 이용해서 웹에 동적으로 구현할 순 있음. 새로고침하면 없어짐.
+            //     // 하지만, 동시에 디비에 저장하니까 새로고침해도 데이터 남게 됨.
+            //     url:`http://universeapi.net/review/add`,
+            //     data:{},
+            //     type:"POST",
+            //     success:function(json) {
+            //         console.log(json);
+            //     },
+            //     error:function(err) {
+
+            //     }
+            // });
+
+            let card = `
+                        <div class="review-card">
+                            <div class="review-user" id="">
+                                ${user}
+                            </div>
+                            <div class="review-content">
+                                ${content}
+                            </div>
+                        </div>
+                        `;
+
+                        $('.modal-box').scrollTop($('.modal-box')[0].scrollHeight);
+            $(".modal-box").append(card);
         }
     </script>
     <!-- 빠르게 프론트에 알려주고 빠른 실행 -->
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </body>
